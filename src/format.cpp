@@ -4,11 +4,24 @@
 
 #include "format.h"
 
-std::string Format::ElapsedTime(long sec) {
-    unsigned hours = sec / 3600;
-    unsigned minutes = (sec - hours * 3600) / 60;
-    unsigned seconds = sec - hours * 3600 - minutes * 60;
-    std::ostringstream oss;
-    oss << std::setfill('0') << std::setw(4) << hours << ":" << std::setw(2) << minutes << ":" << std::setw(2) << seconds;
-    return oss.str();
+using std::string;
+
+string Format::ElapsedTime(long int seconds) {
+    long hours, minutes;
+    hours = seconds / 3600;
+    seconds = seconds % 3600;
+    minutes = seconds / 60;
+    seconds = seconds % 60;
+
+    string sec = std::to_string(seconds);
+    sec.insert(0, 2 - sec.length(), '0');
+
+    string mins = std::to_string(minutes);
+    mins.insert(0, 2 - mins.length(), '0');
+
+    string hrs = std::to_string(hours);
+    hrs.insert(0, 2 - hrs.length(), '0');
+
+    string result = hrs + ":" + mins + ":" + sec;
+    return result;
 }
